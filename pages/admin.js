@@ -156,7 +156,7 @@ export default function Admin() {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ prodDelete: prodDeleteByCatid }), // Updated variable name
+                body: JSON.stringify({ prodDelete: prodDeleteByCatid }),
             });
 
             if (response.ok) {
