@@ -11,7 +11,10 @@ export default function Admin() {
     const [updateItem, setUpdateItem] = useState('');
     const [prodDeleteByCatid, setProdDeleteByCatid] = useState('');
     const [prodDelete, setprodDelete] = useState('');
-    const [updateImage, setUpdateImage] = useState('');
+    const [admin, setAdmin] = useState('');
+    const [password, setPassword] = useState('');
+    const [login, setLogin] = useState(false);
+    const [error, setError] = useState('');
 
     const handlecatUpdateChange = (event) => {
         setcatUpdate(event.target.value);
@@ -123,10 +126,6 @@ export default function Admin() {
         } catch (error) {
             console.error('An error occurred:', error);
         }
-    };
-
-    const handleUpdateImageChange = (event) => {
-        setUpdateImage(event.target.value);
     };
 
     const handleprodDeleteClick = async () => {
@@ -267,6 +266,22 @@ export default function Admin() {
         }
     };
 
+    const handleadminChange = (event) => {
+        setAdmin(event.target.value);
+    };
+
+    const handlepasswordChange = (event) => {
+        setPassword(event.target.value);
+    };
+
+    const handleLoginClick = () => {
+        if (admin !== 'admin' || password !== 'Adm1n') {
+            setLogin(false);
+            setError('Please try again');
+        } else {
+            setLogin(true);
+        }
+    };
 
     return (
         <div className={styles.topNav}>
@@ -275,192 +290,210 @@ export default function Admin() {
                 <div className={styles.divider}></div>
                 <a href="/" className={styles.link}>Back to Grocery Store</a>
             </header>
+            {login === false && (
+                <div>
+                    <label className={styles.Error}>{error}</label>
+                    <br></br>
+                    <label className={styles.label}>Account: </label>
+                    <input type="text" id="admin" name="admin" value={admin} onChange={handleadminChange} required />
+                    <br></br>
+                    <label className={styles.label}>Password: </label>
+                    <input type="text" id="password" name="password" value={password} onChange={handlepasswordChange} required />
+                    <br></br>
+                    <button className={styles.submitButton} onClick={handleLoginClick}>Login</button>
+                </div>
+            )}
+            {login === true && (
+                <div>
+                    <div className={styles.divider}></div>
+                    <h2>By Category:</h2>
 
-            <div className={styles.divider}></div>
-            <h2>By Category:</h2>
+                    <tr>
+                        <td>
+                            <fieldset className={styles.adminList}>
+                                <legend className={styles.panelList}> New Category</legend>
+                                <form>
+                                    <label className={styles.label}>Name *</label>
+                                    <input type="text" id="newCategory" name="newCategory" value={newCategory} onChange={handleNewCategoryChange} required />
+                                    <button className={styles.submitButton} onClick={handleNewCategoryClick}>Submit</button>
+                                </form>
+                            </fieldset>
+                        </td>
+                        <td>
+                            <fieldset className={styles.adminList}>
+                                <legend className={styles.panelList}> Edit Category</legend>
+                                <form>
+                                    <label className={styles.label}>Name *</label>
+                                    <select name="oldCategory" id="oldCategory" onChange={handleOldCategoryChange} required>
+                                        <option value="">Select</option>
+                                        {allCategory.map((category) => {
+                                            if (category.name !== "Sample") {
+                                                return (
+                                                    <option key={category.name} value={category.name}>{category.name}</option>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </select>
+                                    <label className={styles.label}>New Name *</label>
+                                    <input type="text" id="catUpdate" name="catUpdate" value={catUpdate} onChange={handlecatUpdateChange} required />
+                                    <button className={styles.submitButton} onClick={handlecatUpdate}>Submit</button>
+                                </form>
+                            </fieldset>
+                        </td>
+                        <td>
+                            <fieldset className={styles.adminList}>
+                                <legend class="panelList"> Delete Category</legend>
+                                <form>
+                                    <label className={styles.label}>Category </label>
+                                    <select name="category" id="category" onChange={handlecatDeleteChange} required>
+                                        <option value="">Select</option>
+                                        {allCategory.map((category) => {
+                                            if (category.name !== "Sample") {
+                                                return (
+                                                    <option key={category.name} value={category.name}>{category.name}</option>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </select>
+                                    <div className={styles.warning}>*This action cannot be undone.</div>
+                                    <button className={styles.deleteButton} onClick={handlecatDeleteClick}>Submit</button>
+                                </form>
+                            </fieldset>
+                        </td>
+                    </tr>
 
-            <tr>
-                <td>
-                    <fieldset className={styles.adminList}>
-                        <legend className={styles.panelList}> New Category</legend>
-                        <form>
-                            <label className={styles.label}>Name *</label>
-                            <input type="text" id="newCategory" name="newCategory" value={newCategory} onChange={handleNewCategoryChange} required />
-                            <button className={styles.submitButton} onClick={handleNewCategoryClick}>Submit</button>
-                        </form>
-                    </fieldset>
-                </td>
-                <td>
-                    <fieldset className={styles.adminList}>
-                        <legend className={styles.panelList}> Edit Category</legend>
-                        <form>
-                            <label className={styles.label}>Name *</label>
-                            <select name="oldCategory" id="oldCategory" onChange={handleOldCategoryChange} required>
-                                <option value="">Select</option>
-                                {allCategory.map((category) => {
-                                    if (category.name !== "Sample") {
-                                        return (
-                                            <option key={category.name} value={category.name}>{category.name}</option>
-                                        );
-                                    }
-                                    return null;
-                                })}
-                            </select>
-                            <label className={styles.label}>New Name *</label>
-                            <input type="text" id="catUpdate" name="catUpdate" value={catUpdate} onChange={handlecatUpdateChange} required />
-                            <button className={styles.submitButton} onClick={handlecatUpdate}>Submit</button>
-                        </form>
-                    </fieldset>
-                </td>
-                <td>
-                    <fieldset className={styles.adminList}>
-                        <legend class="panelList"> Delete Category</legend>
-                        <form>
-                            <label className={styles.label}>Category </label>
-                            <select name="category" id="category" onChange={handlecatDeleteChange} required>
-                                <option value="">Select</option>
-                                {allCategory.map((category) => {
-                                    if (category.name !== "Sample") {
-                                        return (
-                                            <option key={category.name} value={category.name}>{category.name}</option>
-                                        );
-                                    }
-                                    return null;
-                                })}
-                            </select>
-                            <div className={styles.warning}>*This action cannot be undone.</div>
-                            <button className={styles.deleteButton} onClick={handlecatDeleteClick}>Submit</button>
-                        </form>
-                    </fieldset>
-                </td>
-            </tr>
-
-            <div className={styles.divider}></div>
-            <h2>By Product:</h2>
-            <tr>
-                <td>
-                    <fieldset className={styles.adminList}>
-                        <legend className={styles.panelList}> New Product</legend>
-                        <form>
-                            <label className={styles.label}>Category *</label>
-                            <select name="newProductCategory" id="newProductCategory" onChange={handleNewProductCategory} required>
-                                <option value="">Select</option>
-                                {allCategory.map((category) => {
-                                    if (category.name !== "Sample") {
-                                        return (
-                                            <option key={category.cid} value={category.cid}>{category.name}</option>
-                                        );
-                                    }
-                                    return null;
-                                })}
-                            </select>
-                            <label className={styles.label}>Name *</label>
-                            <input type="text" id="productName" name="productName" onChange={handleNewProduct} required />
-                            <label className={styles.label}>Price *</label>
-                            <input type="number" id="productPrice" name="productPrice" onChange={handleNewProduct} required />
-                            <label className={styles.label}>Inventory *</label>
-                            <input type="number" id="productInventory" name="productInventory" onChange={handleNewProduct} required />
-                            <label className={styles.label}>Description *</label>
-                            <textarea type="text" id="productDescription" name="productDescription" onChange={handleNewProduct} required />
-                            <label className={styles.label}>Image *</label>
-                            <div className={styles.ImageInput}>
-                                <div>
-                                    <input className={styles.imgButton} type="file" id="productImage" name="productImage" accept="image/jpeg, image/gif, image/png" onChange={handleProductImage} required />
-                                </div>
-                            </div>
-                            <button className={styles.submitButton} onClick={handleNewProductClick}>Submit</button>
-                        </form>
-                    </fieldset>
-                </td>
-                <td>
-                    <fieldset className={styles.adminList}>
-                        <legend className={styles.panelList}>Edit Product</legend>
-                        <form>
-                            <label className={styles.label}>Product *</label>
-                            <select className={styles.Select} name="oldProduct" id="oldProduct" onChange={handleOldProductChange} required>
-                                <option value="">Select</option>
-                                {productAll.map((category) => {
-                                    if (category.name !== "Sample") {
-                                        return (
-                                            <option key={category.name} value={category.name}>{category.name}</option>
-                                        );
-                                    }
-                                    return null;
-                                })}
-                            </select>
-                            <label className={styles.label}>Update Item *</label>
-                            <select name="updateItem" id="updateItem" onChange={handleUpdateItemChange} required>
-                                <option value="">Select</option>
-                                <option value="name">Name</option>
-                                <option value="price">Price</option>
-                                <option value="inventory">Inventory</option>
-                                <option value="description">Description</option>
-                                <option value="image">Image</option>
-                            </select>
-                            {updateItem === "name" && (
-                                <input className={styles.textMargin} type="text" id="updateValue" name="updateValue" onChange={handleUpdateValueChange} required />
-                            )}
-                            {updateItem === "price" && (
-                                <input className={styles.textMargin} type="number" id="updateValue" name="updateValue" onChange={handleUpdateValueChange} required />
-                            )}
-                            {updateItem === "inventory" && (
-                                <input className={styles.textMargin} type="number" id="updateValue" name="updateValue" onChange={handleUpdateValueChange} required />
-                            )}
-                            {updateItem === "description" && (
-                                <textarea className={styles.textMargin} id="updateValue" name="updateValue" onChange={handleUpdateValueChange} required />
-                            )}
-                            {updateItem === "image" && (
-                                <input className={`${styles.textMargin} ${styles.imgButton}`} type="file" id="updateValue" name="updateValue" accept="image/jpeg, image/gif, image/png" onChange={handleUpdateValueChange} required />
-                            )}
-                            <button className={styles.submitButton} onClick={handleprodEdit}>Submit</button>
-                        </form>
-                    </fieldset>
-                </td>
-                <td>
-                    <fieldset className={styles.adminList}>
-                        <legend class="panelList"> Delete Product</legend>
-                        <form>
-                            <label className={styles.label}>Product </label>
-                            <select className={styles.Select} name="product" id="product" onChange={handleprodDeleteChange} required>
-                                <option value="">Select</option>
-                                {productAll.map((product) => {
-                                    if (product.name !== "Sample") {
-                                        return (
-                                            <option key={product.pid} value={product.name}>{product.name}</option>
-                                        );
-                                    }
-                                    return null;
-                                })}
-                            </select>
-                            <div className={styles.warning}>*This action cannot be undone.</div>
-                            <button className={styles.deleteButton} onClick={handleprodDeleteClick}>Submit</button>
-                        </form>
-                    </fieldset>
-                    <fieldset className={styles.adminList}>
-                        <legend className="panelList">Delete All Products in the same Category</legend>
-                        <form>
-                            <label className={styles.label}>Category</label>
-                            <select name="category" id="category" onChange={handleprodDeleteByCatidChange} required>
-                                <option value="">Select</option>
-                                {allCategory.map((category) => {
-                                    if (category.name !== "Sample") {
-                                        return (
-                                            <option key={category.name} value={category.name}>
-                                                {category.name}
-                                            </option>
-                                        );
-                                    }
-                                    return null;
-                                })}
-                            </select>
-                            <div className={styles.warning}>*This action cannot be undone.</div>
-                            <button className={styles.deleteButton} onClick={handleProdDeleteByCatidClick}>
-                                Submit
-                            </button>
-                        </form>
-                    </fieldset>
-                </td>
-            </tr>
+                    <div className={styles.divider}></div>
+                    <h2>By Product:</h2>
+                    <tr>
+                        <td>
+                            <fieldset className={styles.adminList}>
+                                <legend className={styles.panelList}> New Product</legend>
+                                <form>
+                                    <label className={styles.label}>Category *</label>
+                                    <select name="newProductCategory" id="newProductCategory" onChange={handleNewProductCategory} required>
+                                        <option value="">Select</option>
+                                        {allCategory.map((category) => {
+                                            if (category.name !== "Sample") {
+                                                return (
+                                                    <option key={category.cid} value={category.cid}>{category.name}</option>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </select>
+                                    <label className={styles.label}>Name *</label>
+                                    <input type="text" id="productName" name="productName" onChange={handleNewProduct} required />
+                                    <label className={styles.label}>Price *</label>
+                                    <input type="number" id="productPrice" name="productPrice" onChange={handleNewProduct} required />
+                                    <label className={styles.label}>Inventory *</label>
+                                    <input type="number" id="productInventory" name="productInventory" onChange={handleNewProduct} required />
+                                    <label className={styles.label}>Description *</label>
+                                    <textarea type="text" id="productDescription" name="productDescription" onChange={handleNewProduct} required />
+                                    <label className={styles.label}>Image *</label>
+                                    <div className={styles.ImageInput}>
+                                        <div>
+                                            <input className={styles.imgButton} type="file" id="productImage" name="productImage" accept="image/jpeg, image/gif, image/png" onChange={handleProductImage} required />
+                                        </div>
+                                    </div>
+                                    <button className={styles.submitButton} onClick={handleNewProductClick}>Submit</button>
+                                </form>
+                            </fieldset>
+                        </td>
+                        <td>
+                            <fieldset className={styles.adminList}>
+                                <legend className={styles.panelList}>Edit Product</legend>
+                                <form>
+                                    <label className={styles.label}>Product *</label>
+                                    <select className={styles.Select} name="oldProduct" id="oldProduct" onChange={handleOldProductChange} required>
+                                        <option value="">Select</option>
+                                        {productAll.map((category) => {
+                                            if (category.name !== "Sample") {
+                                                return (
+                                                    <option key={category.name} value={category.name}>{category.name}</option>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </select>
+                                    <label className={styles.label}>Update Item *</label>
+                                    <select name="updateItem" id="updateItem" onChange={handleUpdateItemChange} required>
+                                        <option value="">Select</option>
+                                        <option value="name">Name</option>
+                                        <option value="price">Price</option>
+                                        <option value="inventory">Inventory</option>
+                                        <option value="description">Description</option>
+                                        <option value="image">Image</option>
+                                    </select>
+                                    {updateItem === "name" && (
+                                        <input className={styles.textMargin} type="text" id="updateValue" name="updateValue" onChange={handleUpdateValueChange} required />
+                                    )}
+                                    {updateItem === "price" && (
+                                        <input className={styles.textMargin} type="number" id="updateValue" name="updateValue" onChange={handleUpdateValueChange} required />
+                                    )}
+                                    {updateItem === "inventory" && (
+                                        <input className={styles.textMargin} type="number" id="updateValue" name="updateValue" onChange={handleUpdateValueChange} required />
+                                    )}
+                                    {updateItem === "description" && (
+                                        <textarea className={styles.textMargin} id="updateValue" name="updateValue" onChange={handleUpdateValueChange} required />
+                                    )}
+                                    {updateItem === "image" && (
+                                        <input className={`${styles.textMargin} ${styles.imgButton}`} type="file" id="updateValue" name="updateValue" accept="image/jpeg, image/gif, image/png" onChange={handleUpdateValueChange} required />
+                                    )}
+                                    <button className={styles.submitButton} onClick={handleprodEdit}>Submit</button>
+                                </form>
+                            </fieldset>
+                        </td>
+                        <td>
+                            <fieldset className={styles.adminList}>
+                                <legend class="panelList"> Delete Product</legend>
+                                <form>
+                                    <label className={styles.label}>Product </label>
+                                    <select className={styles.Select} name="product" id="product" onChange={handleprodDeleteChange} required>
+                                        <option value="">Select</option>
+                                        {productAll.map((product) => {
+                                            if (product.name !== "Sample") {
+                                                return (
+                                                    <option key={product.pid} value={product.name}>{product.name}</option>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </select>
+                                    <div className={styles.warning}>*This action cannot be undone.</div>
+                                    <button className={styles.deleteButton} onClick={handleprodDeleteClick}>Submit</button>
+                                </form>
+                            </fieldset>
+                            <fieldset className={styles.adminList}>
+                                <legend className="panelList">Delete All Products in the same Category</legend>
+                                <form>
+                                    <label className={styles.label}>Category</label>
+                                    <select name="category" id="category" onChange={handleprodDeleteByCatidChange} required>
+                                        <option value="">Select</option>
+                                        {allCategory.map((category) => {
+                                            if (category.name !== "Sample") {
+                                                return (
+                                                    <option key={category.name} value={category.name}>
+                                                        {category.name}
+                                                    </option>
+                                                );
+                                            }
+                                            return null;
+                                        })}
+                                    </select>
+                                    <div className={styles.warning}>*This action cannot be undone.</div>
+                                    <button className={styles.deleteButton} onClick={handleProdDeleteByCatidClick}>
+                                        Submit
+                                    </button>
+                                </form>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </div>
+            )}
         </div>
+
     );
+
 }
