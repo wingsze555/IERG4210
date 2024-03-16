@@ -14,7 +14,7 @@ export default function Admin() {
     const [admin, setAdmin] = useState('');
     const [password, setPassword] = useState('');
     const [login, setLogin] = useState(false);
-    const [error, setError] = useState('');
+    const [error, setMessage] = useState('');
 
     const handlecatUpdateChange = (event) => {
         setcatUpdate(event.target.value);
@@ -277,7 +277,7 @@ export default function Admin() {
     const handleLoginClick = () => {
         if (admin !== 'admin' || password !== 'Adm1n') {
             setLogin(false);
-            setError('Please try again');
+            setMessage('Please try again');
         } else {
             setLogin(true);
         }
@@ -292,7 +292,7 @@ export default function Admin() {
             </header>
             {login === false && (
                 <div>
-                    <label className={styles.Error}>{error}</label>
+                    <div>{error}</div>
                     <br></br>
                     <label className={styles.label}>Account: </label>
                     <input type="text" id="admin" name="admin" value={admin} onChange={handleadminChange} required />
