@@ -5,7 +5,6 @@ import styles from "../styles/Detail.module.css";
 import { Link, useLocation } from 'react-router-dom';
 import Image from "next/image";
 import Cart from './cart.js';
-import Link from 'next/link';
 
 export default function Product({ navigation, findProduct }) {
   const location = useLocation();
