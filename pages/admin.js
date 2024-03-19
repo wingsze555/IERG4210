@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from "../styles/Admin.module.css";
+import Link from 'next/link';
 
 export default function Admin() {
     const [updateValue, setUpdateValue] = useState('');
@@ -288,7 +289,7 @@ export default function Admin() {
             <header>
                 <h1>Grocery Store - Admin Panel</h1>
                 <div className={styles.divider}></div>
-                <a href="/" className={styles.link}>Back to Grocery Store</a>
+                <Link href="/" className={styles.link}>Back to Grocery Stores</Link>
             </header>
             {login === false && (
                 <div>
