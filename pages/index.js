@@ -102,7 +102,7 @@ export default function Home({ navigation, findProduct, product }) {
       <header className={styles.topNav}>
         <div className={styles.leftNav}>
           <header className={styles.title}>
-            <a href="/">Grocery Store</a>
+            <Link href="/">Grocery Store</Link>
           </header>
         </div>
         <div className={styles.middleNav}>
