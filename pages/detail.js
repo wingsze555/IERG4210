@@ -5,6 +5,7 @@ import styles from "../styles/Detail.module.css";
 import { Link, useLocation } from 'react-router-dom';
 import Image from "next/image";
 import Cart from './cart.js';
+import Link from 'next/link';
 
 export default function Product({ navigation, findProduct }) {
   const location = useLocation();
@@ -69,7 +70,7 @@ export default function Product({ navigation, findProduct }) {
       <header className={styles.topNav}>
         <div className={styles.leftNav}>
           <header className={styles.title}>
-            <a href="/">Grocery Store</a>
+            <Link href="/">Grocery Store</Link>
           </header>
         </div>
         <div className={styles.middleNav}>
