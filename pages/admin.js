@@ -291,6 +291,7 @@ export default function Admin() {
                 <div className={styles.divider}></div>
                 <Link href="/" className={styles.link}>Back to Grocery Stores</Link>
             </header>
+            {/*
             {login === false && (
                 <div>
                     <div>{error}</div>
@@ -305,6 +306,7 @@ export default function Admin() {
                 </div>
             )}
             {login === true && (
+            */}
                 <div>
                     <div className={styles.divider}></div>
                     <h2>By Category:</h2>
@@ -492,7 +494,7 @@ export default function Admin() {
                         </td>
                     </tr>
                 </div>
-            )}
+            {/*})} */}
         </div>
 
     );

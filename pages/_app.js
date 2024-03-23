@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import Home from "./index.js";
 import Product from "./detail.js";
 import Admin from "./admin.js";
+import Login from "./login.js";
 
 export default function App() {
   const [isServer, setIsServer] = useState(true);
@@ -44,6 +45,11 @@ export default function App() {
     } catch (error) {
       console.error('An error occurred:', error);
     }
+  };
+
+  //Change
+  const redirectToLogin = () => {
+    return <Navigate to="/login" />;
   };
 
   return (
@@ -91,8 +97,10 @@ export default function App() {
             }
           />
         ))}
-        <Route path="*" element={<Navigate to="/" />} />
+        {/*<Route path="*" element={<Navigate to="/" />} />*/}
+        <Route path="/" element={redirectToLogin} />
         <Route exact path="/admin" element={<Admin />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );
